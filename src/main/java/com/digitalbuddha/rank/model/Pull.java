@@ -1,6 +1,9 @@
 package com.digitalbuddha.rank.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = "milestone")
 
 public class Pull{
    	private _links _links;

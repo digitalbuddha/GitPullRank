@@ -24,10 +24,16 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("log4j:log4j:1.2.17")
+    compile('org.apache.httpcomponents:httpclient:4.3.2')
+
+    testCompile("junit:junit")
+    testCompile('org.mockito:mockito-all:1.9.5')
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    testCompile("junit:junit")
+
 }
 
 task wrapper(type: Wrapper) {

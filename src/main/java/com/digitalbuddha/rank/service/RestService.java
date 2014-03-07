@@ -2,9 +2,9 @@ package com.digitalbuddha.rank.service;
 
 import com.digitalbuddha.rank.model.Pull;
 import com.digitalbuddha.rank.model.Repository;
+import org.apache.log4j.Logger;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -21,57 +21,61 @@ public class RestService {
     public static final String BASE_URL = "https://api.github.com/";
     public RestTemplate restTemplate;
 
+
+    Logger logger=Logger.getLogger(RestService.class);
+
     public RestService() {
-        restTemplate = new RestTemplate();
+        //Init a Rest Template with json converter & basic authentication
+        restTemplate = new RestClient();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
     }
 
+    //Readable Version
     public Repository[] Top5ReposByPullRequest(String orgName) {
         //fetch all repositories
         Repository[] allRepos = new Repository[0];
-        try {
-            allRepos = restTemplate.getForObject(BASE_URL + "orgs/" + orgName + "/repos", Repository[].class);
+
+            final String allReposURL = BASE_URL + "orgs/" + orgName + "/repos";
+            allRepos = restTemplate.getForObject(allReposURL, Repository[].class);
+            System.out.println(restTemplate.getForObject(allReposURL, String.class));
             //add pull records
             allRepos=addPullData(allRepos);
-        } catch (RestClientException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+
         //return 5 most popular repos by number of pull requests
         return findTop5Repos(allRepos);
     }
 
     /*
+    //Sexy Version
     public Repository[] Top5ReposByPullRequest(String orgName) {
         //Fetch all Repositories for a given Organzation
         //Add Pull Records to each Repository Record
         //Return the top 5 Repositories by pull records
-        return findTop5Repos(addPullData(restTemplate.getForObject(BASE_URL + "orgs/" + orgName + "/repos", Repository[].class)));
+        return findTop5Repos(addPullData(restTemplate.getForObject(BASE_URL+"orgs/"+orgName+"/repos", Repository[].class)));
     }
     */
-
 
     private Repository[] addPullData(Repository[] allRepos) {
         //fetch/set pull data for each Repository
 
-        try {
             for(Repository repo:allRepos)
-             {
+             { //Remove last parameter as we want all pull records not just 1.
                String pullURL=repo.getPulls_url().replace("{/number}","");
-                Pull[] pull = restTemplate.getForObject(pullURL, Pull[].class);
-                repo.setPulls(pull);
+               logger.error("Requesting ->"+pullURL);
+               Pull[] pulls = restTemplate.getForObject(pullURL, Pull[].class);
+               System.out.println(restTemplate.getForObject(pullURL, String.class));
+
+               repo.setPulls(pulls);
 
              }
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
 
         return allRepos;
     }
 
     private Repository[] findTop5Repos(Repository[] allRepos) {
         //Selection Sort for first 5 elements
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i <  allRepos.length-1; i++)
         {
             int index = i;
             for (int j = i + 1; j < allRepos.length; j++)
@@ -82,15 +86,6 @@ public class RestService {
             allRepos[index] = allRepos[i];
             allRepos[i] = mostPulls;
         }
-
-
-
-
         return Arrays.copyOf(allRepos,5);
-    }
-
-    private Repository[] getAllReposForOrganization(String orgName) {
-        // Make the HTTP GET request, marshaling the response from JSON to an array of Repositories
-        return restTemplate.getForObject(BASE_URL + "orgs/" + orgName + "/repos", Repository[].class);
     }
 }
