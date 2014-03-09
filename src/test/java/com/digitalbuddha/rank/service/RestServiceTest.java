@@ -1,28 +1,31 @@
 package com.digitalbuddha.rank.service;
 
-import com.digitalbuddha.rank.Application;
+import com.digitalbuddha.rank.model.Repository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Nakhimovich
- * Date: 3/6/14
- * Time: 7:16 PM
+ * Date: 3/9/14
+ * Time: 5:55 PM
  * To change this template use File | Settings | File Templates.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = Application.class, loader = SpringApplicationContextLoader.class)
-public class RestServiceTest  {
-    @Autowired
-    RestService restService;
-
+public class RestServiceTest extends BaseTestCase {
     @Test
-    public void GetTop5() throws Exception {
-        restService.Top5ReposByPullRequest("netflix");
+    public void testFindTop5ReposByPullCount() throws Exception {
+        createReposResponse(NETFLIX);
+        createPullResponse("https://api.github.com/repos/Netflix/astyanax/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/curator/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/Priam/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/CassJMeter/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/servo/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/aws-autoscaling/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/exhibitor/pulls{/number}");
+        Repository[] topRepos= restService.findTop5ReposByPullCount(NETFLIX);
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        System.out.println("Result->:"+ow.writeValueAsString(topRepos));
     }
 }

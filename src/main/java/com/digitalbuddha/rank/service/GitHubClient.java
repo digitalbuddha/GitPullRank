@@ -29,7 +29,6 @@ public class GitHubClient extends RestTemplate {
     }
 
     public Pull[] allPullsForRepo(String pullURL) {
-
        return this.getForObject(pullURL+"?access_token="+accessToken, Pull[].class);
     }
 
