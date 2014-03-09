@@ -2,6 +2,7 @@ buildscript {
     repositories {
         maven { url "http://repo.spring.io/libs-snapshot" }
         mavenLocal()
+        mavenCentral()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC4")
@@ -24,10 +25,10 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-security")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
+netfl    compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("log4j:log4j:1.2.17")
     compile('org.apache.httpcomponents:httpclient:4.3.2')
+    compile ('org.springframework.social:spring-social-github:1.0.0.M3')
 
     testCompile("junit:junit")
     testCompile('org.mockito:mockito-all:1.9.5')

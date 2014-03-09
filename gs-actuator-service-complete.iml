@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -44,15 +45,6 @@
     <orderEntry type="library" exported="" name="jackson-core-2.3.1" level="project" />
     <orderEntry type="library" exported="" name="logback-core-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="jul-to-slf4j-1.7.6" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/plugins/testng/lib/testng.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="library" scope="TEST" name="hamcrest-library-1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="spring-test-4.0.2.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="mockito-core-1.9.5" level="project" />
@@ -60,13 +52,13 @@
     <orderEntry type="library" scope="TEST" name="objenesis-1.0" level="project" />
     <orderEntry type="library" exported="" name="log4j-1.2.17" level="project" />
     <orderEntry type="library" scope="TEST" name="mockito-all-1.9.5" level="project" />
-    <orderEntry type="library" exported="" name="spring-boot-starter-security-1.0.0.RC4" level="project" />
-    <orderEntry type="library" exported="" name="spring-security-core-3.2.1.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="spring-security-web-3.2.1.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="spring-security-config-3.2.1.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="httpcore-4.3.1" level="project" />
     <orderEntry type="library" exported="" name="httpclient-4.3.2" level="project" />
     <orderEntry type="library" exported="" name="commons-codec-1.6" level="project" />
+    <orderEntry type="library" exported="" name="jackson-mapper-asl-1.7.3" level="project" />
+    <orderEntry type="library" exported="" name="jackson-core-asl-1.7.3" level="project" />
+    <orderEntry type="library" exported="" name="spring-social-github-1.0.0.M3" level="project" />
+    <orderEntry type="library" exported="" name="spring-social-core-1.0.0.M3" level="project" />
   </component>
 </module>
 

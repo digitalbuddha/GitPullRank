@@ -1,13 +1,9 @@
 package com.digitalbuddha.rank.service;
 
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -24,11 +20,14 @@ public class RestClient extends RestTemplate {
     @Value( "${github.password}")
     private String password="Qwer1234";
     public RestClient() {
-        CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials(
-                new AuthScope(null, -1),
-                new UsernamePasswordCredentials(username, password));
-        HttpClient httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
-        setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
+        String accessToken = "f8FX29g..."; // access token received from GitHub after OAuth authorization
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization: Bearer", accessToken);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+        System.out.println(this.exchange("http://localhost:8080/xxxx", HttpMethod.GET,entity,String.class));
+        //http://stackoverflow.com/questionsr/7971119/spring-rest-template-with-oauth;
+
     }
 }

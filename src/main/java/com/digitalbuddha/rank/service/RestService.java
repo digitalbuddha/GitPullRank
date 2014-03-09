@@ -3,6 +3,9 @@ package com.digitalbuddha.rank.service;
 import com.digitalbuddha.rank.model.Pull;
 import com.digitalbuddha.rank.model.Repository;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,31 +22,36 @@ import java.util.Arrays;
 @Service
 public class RestService {
     public static final String BASE_URL = "https://api.github.com/";
+    private final String accessToken="";
     public RestTemplate restTemplate;
 
 
     Logger logger=Logger.getLogger(RestService.class);
+    private final HttpEntity<String> entity;
 
     public RestService() {
         //Init a Rest Template with json converter & basic authentication
+
         restTemplate = new RestClient();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization: Bearer", accessToken);
+        entity = new HttpEntity<String>(headers);
     }
 
     //Readable Version
     public Repository[] Top5ReposByPullRequest(String orgName) {
-        //fetch all repositories
         Repository[] allRepos = new Repository[0];
-
             final String allReposURL = BASE_URL + "orgs/" + orgName + "/repos";
-            allRepos = restTemplate.getForObject(allReposURL, Repository[].class);
-            System.out.println(restTemplate.getForObject(allReposURL, String.class));
-            //add pull records
+            allRepos= getAllReposForOrg(allReposURL);
+            System.out.println(restTemplate.exchange(allReposURL, HttpMethod.GET, entity, String.class).getBody());
             allRepos=addPullData(allRepos);
 
-        //return 5 most popular repos by number of pull requests
         return findTop5Repos(allRepos);
+    }
+
+    private Repository[] getAllReposForOrg(String allReposURL) {
+        return restTemplate.exchange(allReposURL, HttpMethod.GET, entity, Repository[].class).getBody();
     }
 
     /*
@@ -63,7 +71,7 @@ public class RestService {
              { //Remove last parameter as we want all pull records not just 1.
                String pullURL=repo.getPulls_url().replace("{/number}","");
                logger.error("Requesting ->"+pullURL);
-               Pull[] pulls = restTemplate.getForObject(pullURL, Pull[].class);
+               Pull[] pulls = getPullsForRepo(pullURL);
                System.out.println(restTemplate.getForObject(pullURL, String.class));
 
                repo.setPulls(pulls);
@@ -71,6 +79,10 @@ public class RestService {
              }
 
         return allRepos;
+    }
+
+    private Pull[] getPullsForRepo(String pullURL) {
+        return restTemplate.getForObject(pullURL, Pull[].class);
     }
 
     private Repository[] findTop5Repos(Repository[] allRepos) {
