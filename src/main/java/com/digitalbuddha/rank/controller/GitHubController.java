@@ -13,7 +13,7 @@ public class GitHubController {
 
     @RequestMapping(value = "/org/{organization}/top/{returnCount}/repos",method=RequestMethod.GET)
     public Repository[] top5forOrganization(@PathVariable String organization, @PathVariable int returnCount) {
-        return restService.findTop5ReposByPullCount(organization, 5, false);
+        return restService.findTop5ReposByPullCount(organization, returnCount, false);
     }
     @RequestMapping(value = "/org/{organization}/top/{returnCount}/repos/expanded",method=RequestMethod.GET)
     public Repository[] top5forOrganizationExpnded(@PathVariable String organization, @PathVariable int returnCount) {
