@@ -25,13 +25,9 @@ Special Thanks to Netflix for giving me the opportunity to interview and assigni
 1. Git Clone
 2. cd projectDir
 3. open terminal
-if using intellij:
-A. gradlew idea
-B. open the project file, run the bootrun task
-if not
-A. gradlew bootRun
+1. gradlew bootRun
 
-
+if using intellij you can generate project files by running gradlew idea from the command line
 
 you may also run "gradlew war" to generate a war.
 
