@@ -1,5 +1,4 @@
 package com.digitalbuddha.rank.service;
-
 import com.digitalbuddha.rank.model.Repository;
 import org.junit.Test;
 
@@ -42,8 +41,6 @@ public class RestServiceTest extends BaseTestCase {
 //        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 //        System.out.println("Result->:" + ow.writeValueAsString(topRepos));
 //    }
-
-
     private void createMockPullResponses() {
         createPullResponse("https://api.github.com/repos/Netflix/astyanax/pulls{/number}");
         createPullResponse("https://api.github.com/repos/Netflix/curator/pulls{/number}");
