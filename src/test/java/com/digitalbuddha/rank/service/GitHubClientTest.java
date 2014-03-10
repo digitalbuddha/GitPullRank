@@ -2,7 +2,7 @@ package com.digitalbuddha.rank.service;
 
 import com.digitalbuddha.rank.model.Repository;
 import org.junit.Test;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class GitHubClientTest extends BaseTestCase {
 
