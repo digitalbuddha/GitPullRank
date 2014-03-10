@@ -75,6 +75,7 @@ public class Repository {
    	private Number watchers;
    	private Number watchers_count;
     private Pull[] pulls;
+    private int pullCount;
 
     public String getArchive_url(){
 		return this.archive_url;
@@ -486,5 +487,13 @@ public class Repository {
 
     public Pull[] getPulls() {
         return pulls;
+    }
+
+    public void setPullCount(int pullCount) {
+        this.pullCount = pullCount;
+    }
+
+    public int getPullCount() {
+        return pullCount;
     }
 }

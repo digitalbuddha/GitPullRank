@@ -5,16 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.Test;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Nakhimovich
- * Date: 3/9/14
- * Time: 5:55 PM
- * To change this template use File | Settings | File Templates.
- */
 public class RestServiceTest extends BaseTestCase {
     @Test
-    public void testFindTop5ReposByPullCount() throws Exception {
+    public void testFindTop5ReposByPullCountMock() throws Exception {
         createReposResponse(NETFLIX);
         createPullResponse("https://api.github.com/repos/Netflix/astyanax/pulls{/number}");
         createPullResponse("https://api.github.com/repos/Netflix/curator/pulls{/number}");
@@ -23,9 +16,33 @@ public class RestServiceTest extends BaseTestCase {
         createPullResponse("https://api.github.com/repos/Netflix/servo/pulls{/number}");
         createPullResponse("https://api.github.com/repos/Netflix/aws-autoscaling/pulls{/number}");
         createPullResponse("https://api.github.com/repos/Netflix/exhibitor/pulls{/number}");
-        Repository[] topRepos= restService.findTop5ReposByPullCount(NETFLIX);
+        Repository[] topRepos = restService.findTop5ReposByPullCount(NETFLIX, 1, false);
 
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        System.out.println("Result->:"+ow.writeValueAsString(topRepos));
+        System.out.println("Result->:" + ow.writeValueAsString(topRepos));
     }
+
+    @Test
+    public void testFindTop5ReposByPullCountExpandedMock() throws Exception {
+        createReposResponse(NETFLIX);
+        createPullResponse("https://api.github.com/repos/Netflix/astyanax/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/curator/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/Priam/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/CassJMeter/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/servo/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/aws-autoscaling/pulls{/number}");
+        createPullResponse("https://api.github.com/repos/Netflix/exhibitor/pulls{/number}");
+        Repository[] topRepos = restService.findTop5ReposByPullCount(NETFLIX, 5, true);
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        System.out.println("Result->:" + ow.writeValueAsString(topRepos));
+    }
+
+//    @Test
+//    public void testFindTop5ReposByPullCount() throws Exception {
+//        Repository[] topRepos = restService.findTop5ReposByPullCount(NETFLIX, false);
+//
+//        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+//        System.out.println("Result->:" + ow.writeValueAsString(topRepos));
+//    }
 }

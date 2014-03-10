@@ -16,29 +16,34 @@ public class RestService {
     Logger logger=Logger.getLogger(RestService.class);
 
 
-    public Repository[] findTop5ReposByPullCount(String orgName) {
-      Repository[] allRepos=github.allReposForOrg(orgName);
-        allRepos=addPullData(allRepos);
+    public Repository[] findTop5ReposByPullCount(String orgName, int numberToReturn, Boolean expanded) {
+        logger.debug("Requesting All Repos for->" + orgName);
+        Repository[] allRepos=github.allReposForOrg(orgName);
+        allRepos=addPullData(allRepos,expanded);
         for (int i = 0; i <  allRepos.length-1; i++)
         {
             int index = i;
             for (int j = i + 1; j < allRepos.length; j++)
-                if (allRepos[j].getPulls().length > allRepos[index].getPulls().length)
+                if (allRepos[j].getPullCount() > allRepos[index].getPullCount())
                     index = j;
             Repository mostPulls = allRepos[index];
             allRepos[index] = allRepos[i];
             allRepos[i] = mostPulls;
         }
-        return Arrays.copyOf(allRepos,5);
+        return Arrays.copyOf(allRepos,numberToReturn);
     }
 
-    private Repository[] addPullData(Repository[] allRepos) {
+    private Repository[] addPullData(Repository[] allRepos,  Boolean expanded) {
         for(Repository repo:allRepos)
         { //Remove last parameter as we want all pull records not just 1.
             String pullURL=repo.getPulls_url().replace("{/number}","");
             logger.debug("Requesting ->" + pullURL);
             Pull[] pulls = github.allPullsForRepo(pullURL);
-            repo.setPulls(pulls);
+            repo.setPullCount(pulls.length);
+            if (expanded)
+            {
+                repo.setPulls(pulls);
+            }
         }
         return allRepos;
     }

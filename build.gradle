@@ -10,6 +10,7 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'war'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
@@ -35,6 +36,8 @@ dependencies {
 
 
 }
+
+sourceSets.test.resources.srcDirs = ['src/test/resources', 'src/test/java']
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.11'
