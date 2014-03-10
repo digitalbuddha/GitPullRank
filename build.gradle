@@ -27,14 +27,10 @@ repositories {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile('org.apache.httpcomponents:httpclient:4.3.2')
-    compile("log4j:log4j:1.2.17")
-
-//    testCompile("junit:junit")
-//    testCompile('org.mockito:mockito-all:1.9.5')
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
-
+    compile('org.apache.httpcomponents:httpclient:4.3.2')
+    compile("log4j:log4j:1.2.17")
 }
 
 sourceSets.test.resources.srcDirs = ['src/test/resources', 'src/test/java']
