@@ -22,10 +22,10 @@ Special Thanks to Netflix for giving me the opportunity to interview and assigni
 
 0-60 guide
 ==================================
-1. Git Clone
-2. cd projectDir
-3. open terminal
-1. gradlew bootRun
+- open terminal
+- Git Clone
+- cd projectDir
+- gradlew bootRun
 
 if using intellij you can generate project files by running gradlew idea from the command line
 
